@@ -8,18 +8,18 @@ export const useFetch = (url) => {
   useEffect(() => {
     const handleFetch = async () => {
       try {
-        const response = await fetch(`${url}`);
+        const response = await fetch(url);
         if (!response.ok) throw new Error("Error al solicitar la información");
-        setData([...response.content]);
+        const result = await response.json();
+        setData(result);
       } catch (error) {
         setError(error);
-        throw new Error(error);
       } finally {
         setLoading(false);
       }
     };
-    handleFetch;
-  }, []);
+    handleFetch();
+  }, [url]);
 
   return { data, loading, error };
 };
