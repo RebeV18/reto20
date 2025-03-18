@@ -1,12 +1,33 @@
-# React + Vite
+# Reto 20: Mi Custom Hook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Crea un custom hook llamado useFetch que acepte una URL como parámetro y devuelva un objeto con tres propiedades: data, loading y error. El data es el resultado de la solicitud a la URL, el loading es un valor booleano que indica si la solicitud está en proceso y el error es un objeto que contiene información sobre cualquier error que ocurra durante la solicitud.
 
-Currently, two official plugins are available:
+Puedes usar la función fetch() para realizar la solicitud HTTP a la URL proporcionada como parámetro. Para mantener el estado del componente y evitar que se produzca una actualización infinita, asegúrate de usar el hook useState para almacenar los valores de data, loading y error.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+Aquí hay un ejemplo de cómo podría ser el uso del custom hook:
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+    function App() {
+    const { data, loading, error } = useFetch('https://jsonplaceholder.typicode.com/users');
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
+    return (
+        <div>
+        {data.map(user => (
+            <div key={user.id}>{user.name}</div>
+        ))}
+        </div>
+    );
+    }
+```
+
+
+En este ejemplo, el custom hook useFetch se utiliza para obtener datos de la API JSONPlaceholder. El componente App muestra una lista de nombres de usuarios obtenidos de la API. Si hay un error durante la solicitud o la solicitud está en proceso, se muestra un mensaje apropiado en su lugar.
